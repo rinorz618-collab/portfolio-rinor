@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rinor — Web Developer & Creative Technologist Portfolio" />
+  <title>Rinor — Portfolio</title>
+  <style>
+    :root {
+      --bg: #07090d;
+      --surface: #0d1118;
+      --surface-2: #121823;
+      --text: #f5f7fb;
+      --muted: #9aa4b2;
+      --line: rgba(255,255,255,.09);
+      --accent: #5ee7ff;
+      --accent-2: #7c5cff;
+      --radius: 22px;
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(124,92,255,.16), transparent 28%),
+        radial-gradient(circle at 10% 30%, rgba(94,231,255,.08), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin: auto; }
+    .nav {
+      position: fixed; inset: 0 0 auto; z-index: 20;
+      background: rgba(7,9,13,.72); backdrop-filter: blur(18px);
+      border-bottom: 1px solid transparent;
+      transition: .25s;
+    }
+    .nav.scrolled { border-color: var(--line); }
+    .nav-inner { height: 76px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 1.2rem; font-weight: 800; letter-spacing: -.04em; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; color: var(--muted); font-size: .94rem; }
+    .nav-links a:hover { color: var(--text); }
+    .menu { display: none; background: none; border: 0; color: white; font-size: 1.5rem; cursor: pointer; }
+
+    .hero { min-height: 100vh; display: grid; place-items: center; padding: 140px 0 80px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 70px; align-items: center; }
+    .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; margin-bottom: 18px; }
+    h1 { font-size: clamp(3.2rem, 8vw, 6.7rem); line-height: .92; letter-spacing: -.075em; max-width: 850px; }
+    h1 .gradient {
+      background: linear-gradient(90deg, var(--accent), #fff 45%, #a98cff);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-copy { max-width: 680px; color: var(--muted); font-size: 1.12rem; margin: 28px 0; }
+    .buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line); padding: 13px 19px; border-radius: 999px;
+      display: inline-flex; align-items: center; gap: 8px; transition: .2s; font-weight: 700;
+    }
+    .btn.primary { background: var(--text); color: #080a0e; border-color: var(--text); }
+    .btn:hover { transform: translateY(-2px); }
+    .hero-card {
+      min-height: 390px; border: 1px solid var(--line); border-radius: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+      padding: 28px; position: relative; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,.3);
+    }
+    .orb { width: 180px; height: 180px; border-radius: 50%; position: absolute; right: -30px; top: -35px;
+      background: radial-gradient(circle at 35% 30%, #fff, var(--accent), var(--accent-2) 65%, transparent 70%);
+      filter: blur(2px); opacity: .85;
+    }
+    .terminal { position: absolute; left: 28px; right: 28px; bottom: 28px; border: 1px solid var(--line);
+      border-radius: 18px; background: rgba(5,7,11,.8); padding: 20px; font-family: ui-monospace, monospace; color: #cdd5df; }
+    .terminal .green { color: #77f2b0; }
+    .terminal .blue { color: var(--accent); }
+
+    section { padding: 110px 0; }
+    .section-head { display: flex; justify-content: space-between; gap: 30px; align-items: end; margin-bottom: 38px; }
+    .section-head h2 { font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.06em; }
+    .section-head p { color: var(--muted); max-width: 460px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card {
+      background: rgba(255,255,255,.035); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 26px; transition: .25s;
+    }
+    .card:hover { transform: translateY(-5px); border-color: rgba(94,231,255,.35); }
+    .icon { font-size: 1.6rem; margin-bottom: 22px; }
+    .card h3 { margin-bottom: 9px; font-size: 1.15rem; }
+    .card p { color: var(--muted); font-size: .95rem; }
+    .projects { grid-template-columns: repeat(2, 1fr); }
+    .project { padding: 0; overflow: hidden; }
+    .project-image {
+      height: 230px; display: grid; place-items: center; font-size: 2.5rem; font-weight: 900;
+      background: linear-gradient(135deg, #101a2a, #25184c);
+    }
+    .project:nth-child(2) .project-image { background: linear-gradient(135deg, #101d1b, #172b45); }
+    .project:nth-child(3) .project-image { background: linear-gradient(135deg, #221314, #24203b); }
+    .project:nth-child(4) .project-image { background: linear-gradient(135deg, #111820, #272719); }
+    .project-body { padding: 24px; }
+    .tags { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 16px; }
+    .tag { border: 1px solid var(--line); color: var(--muted); padding: 5px 9px; border-radius: 999px; font-size: .75rem; }
+
+    .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 60px; align-items: start; }
+    .about-number { font-size: 7rem; line-height: .8; font-weight: 900; letter-spacing: -.1em; color: rgba(255,255,255,.08); }
+    .about p { color: var(--muted); margin-bottom: 18px; font-size: 1.03rem; }
+    .skills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+    .skill { padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.03); }
+
+    .contact-box { text-align: center; border: 1px solid var(--line); border-radius: 30px; padding: 70px 30px;
+      background: radial-gradient(circle at 50% 0%, rgba(94,231,255,.11), transparent 42%), rgba(255,255,255,.025); }
+    .contact-box h2 { font-size: clamp(2.3rem, 6vw, 4.7rem); letter-spacing: -.07em; line-height: .95; }
+    .contact-box p { color: var(--muted); max-width: 560px; margin: 20px auto 28px; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: .9rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 850px) {
+      .hero-grid, .about { grid-template-columns: 1fr; }
+      .grid, .projects { grid-template-columns: 1fr; }
+      .hero-card { min-height: 320px; }
+      .nav-links { display: none; position: absolute; top: 76px; left: 20px; right: 20px; padding: 20px;
+        background: #0d1118; border: 1px solid var(--line); border-radius: 16px; flex-direction: column; }
+      .nav-links.open { display: flex; }
+      .menu { display: block; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 12px; }
+    }
+    @media (max-width: 520px) {
+      .container { width: min(var(--max), calc(100% - 28px)); }
+      h1 { font-size: 3.25rem; }
+      section { padding: 80px 0; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="#home">Rinor<span>.</span></a>
+      <button class="menu" id="menu" aria-label="Open menu">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#work">Work</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">Web Developer • Creative Technologist</div>
+          <h1>I build <span class="gradient">digital products</span> people remember.</h1>
+          <p class="hero-copy">I design and develop modern websites, AI-powered tools, and polished digital experiences with a focus on speed, simplicity, and great UX.</p>
+          <div class="buttons">
+            <a class="btn primary" href="#work">View my work ↓</a>
+            <a class="btn" href="#contact">Let's talk ↗</a>
+          </div>
+        </div>
+        <div class="hero-card reveal">
+          <div class="orb"></div>
+          <div class="terminal">
+            <div><span class="green">rinor@studio</span>:~$ whoami</div>
+            <div class="blue">web_developer</div><br>
+            <div><span class="green">rinor@studio</span>:~$ build --future</div>
+            <div>Design. Code. Ship. Repeat.</div><br>
+            <div><span class="green">rinor@studio</span>:~$ <span class="blue">_</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="eyebrow">Selected work</div><h2>Projects that solve real problems.</h2></div>
+          <p>A selection of product concepts and digital experiences. Replace these examples with your own projects and links.</p>
+        </div>
+        <div class="grid projects">
+          <article class="card project reveal">
+            <div class="project-image">AI VIDEO</div>
+            <div class="project-body"><h3>AI Video Studio</h3><p>An intelligent workflow for turning long-form videos into short, social-ready clips.</p><div class="tags"><span class="tag">React</span><span class="tag">AI</span><span class="tag">Video</span></div></div>
+          </article>
+          <article class="card project reveal">
+            <div class="project-image">LANGUAGE</div>
+            <div class="project-body"><h3>Language Learning Platform</h3><p>A structured learning experience combining lessons, listening, vocabulary, speaking and progress tracking.</p><div class="tags"><span class="tag">UX/UI</span><span class="tag">JavaScript</span><span class="tag">Education</span></div></div>
+          </article>
+          <article class="card project reveal">
+            <div class="project-image">SOCIAL</div>
+            <div class="project-body"><h3>Social Content Dashboard</h3><p>A centralized workspace for managing, editing and publishing short-form content.</p><div class="tags"><span class="tag">Dashboard</span><span class="tag">APIs</span><span class="tag">Automation</span></div></div>
+          </article>
+          <article class="card project reveal">
+            <div class="project-image">MEDIA</div>
+            <div class="project-body"><h3>Oakline Media</h3><p>A modern media brand experience focused on video editing and digital content production.</p><div class="tags"><span class="tag">Branding</span><span class="tag">Web</span><span class="tag">Creative</span></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="eyebrow">What I do</div><h2>From idea to shipped product.</h2></div>
+          <p>I combine design thinking and development to create experiences that look sharp and work reliably.</p>
+        </div>
+        <div class="grid">
+          <div class="card reveal"><div class="icon">✦</div><h3>Web Development</h3><p>Fast, responsive and accessible websites using modern HTML, CSS, JavaScript and frameworks.</p></div>
+          <div class="card reveal"><div class="icon">◈</div><h3>AI Products</h3><p>Interfaces and workflows that turn AI capabilities into useful, practical products.</p></div>
+          <div class="card reveal"><div class="icon">↗</div><h3>UI / UX</h3><p>Clean interfaces, thoughtful user flows and consistent design systems built around the user.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about">
+        <div class="reveal"><div class="eyebrow">A little about me</div><div class="about-number">01</div></div>
+        <div class="reveal">
+          <h2>Curious by default. Serious about building.</h2>
+          <p>I enjoy turning rough ideas into useful digital products. My work sits at the intersection of development, design, AI and content creation.</p>
+          <p>I'm especially interested in products that simplify complicated workflows and help creators or businesses do more with less.</p>
+          <div class="skills">
+            <span class="skill">HTML / CSS</span><span class="skill">JavaScript</span><span class="skill">React</span>
+            <span class="skill">Python</span><span class="skill">WordPress</span><span class="skill">AI APIs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box reveal">
+          <div class="eyebrow">Have a project?</div>
+          <h2>Let's build something<br><span class="gradient">great together.</span></h2>
+          <p>Tell me what you're working on, what you want to improve, or what you want to build from scratch.</p>
+          <div class="buttons" style="justify-content:center">
+            <a class="btn primary" href="mailto:hello@example.com">Email me ↗</a>
+            <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> Rinor. All rights reserved.</span>
+      <span>Designed & built with HTML, CSS & JavaScript.</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById("nav");
+    const menu = document.getElementById("menu");
+    const navLinks = document.getElementById("navLinks");
+
+    window.addEventListener("scroll", () => {
+      nav.classList.toggle("scrolled", window.scrollY > 10);
+    });
+
+    menu.addEventListener("click", () => navLinks.classList.toggle("open"));
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", () => navLinks.classList.remove("open"));
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
